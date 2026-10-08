@@ -156,3 +156,39 @@ DEFAULT_BRANCH_METADATA != BRANCH_EXISTENCE
 EMPTY_BRANCH_NAME != LIVE_REF
 
 REMOTE_MUTATION_SUCCEEDED + POSTCHECK_DEFECT = PRESERVE_REMOTE_AND_ADJUDICATE
+
+## Empty JSON-array counting discipline - ICRP-E007
+
+PowerShell 5.1 may deserialize an empty JSON array (`[]`) through
+`ConvertFrom-Json` as `$null` rather than as a zero-length collection.
+Wrapping that value directly with `@(...)` produces a one-element array
+containing `$null`, and `.Count` therefore returns 1.
+
+ICRP-E007 was observed during GitHub ruleset inspection:
+
+- raw API payload: `[]`
+- runner-reported count: `1`
+- actual ruleset count: `0`
+
+Required rules:
+
+- Do not infer collection cardinality from `@($value).Count` when `$value` may
+  be `$null` after JSON deserialization.
+- Normalize nullable JSON collections explicitly before counting.
+- Preserve and inspect the raw JSON payload when collection cardinality is a
+  gate condition.
+- For an empty JSON array, require count 0.
+- A parser/counting defect must not be promoted into a false repository-state
+  claim.
+
+Example safe normalization:
+
+`if ($null -eq $value) { $items = @() } else { $items = @($value) }`
+
+Durable semantics:
+
+EMPTY_JSON_ARRAY = ZERO_ITEMS
+
+NULL_DESERIALIZATION != ONE_REAL_ITEM
+
+PARSER_COUNT != SOURCE_STATE_UNLESS_NORMALIZED

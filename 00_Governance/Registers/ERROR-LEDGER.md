@@ -250,3 +250,49 @@ Rules:
 `EMPTY_BRANCH_NAME != LIVE_REF`
 
 `REMOTE_MUTATION_SUCCEEDED + POSTCHECK_DEFECT = PRESERVE_REMOTE_AND_ADJUDICATE`
+
+## ICRP-E007 - Empty JSON ruleset array miscounted as one item
+
+Status: CONFIRMED
+
+Class: POWERSHELL_JSON_COLLECTION_NORMALIZATION_DEFECT
+
+Observed during:
+`ICRP-RUN-000D-RV1-REMOTE-PUBLICATION-VERIFICATION-AND-MAIN-PROTECTION-PREP-v1.0.0.ps1`
+
+Observed evidence:
+
+- GitHub rulesets endpoint exit code: 0
+- raw response: `[]`
+- runner output: `RULESET COUNT=1`
+
+Root cause:
+In Windows PowerShell 5.1, `ConvertFrom-Json` on an empty JSON array can yield
+`$null`. The runner then used `@($rulesetsR.Stdout | ConvertFrom-Json)`.
+Wrapping `$null` in an array produces a one-element collection, causing
+`.Count` to return 1.
+
+Actual repository state:
+ZERO repository rulesets.
+
+Related confirmed state:
+
+- branch protection on `main`: ABSENT
+- repository visibility: PUBLIC
+- default branch: main
+- local/remote main SHA identity:
+  `28417ad11b294638942a152a36e524733176647c`
+- local repository clean: YES
+- mutation during inspection: NO
+
+Safe handling:
+Normalize nullable JSON collections explicitly before counting and preserve raw
+API output as adjudication evidence.
+
+Rules:
+
+`EMPTY_JSON_ARRAY = ZERO_ITEMS`
+
+`NULL_DESERIALIZATION != ONE_REAL_ITEM`
+
+`PARSER_COUNT != SOURCE_STATE_UNLESS_NORMALIZED`
