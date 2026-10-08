@@ -296,3 +296,52 @@ Rules:
 `NULL_DESERIALIZATION != ONE_REAL_ITEM`
 
 `PARSER_COUNT != SOURCE_STATE_UNLESS_NORMALIZED`
+
+## ICRP-E008 - Empty collection helper collapsed to null
+
+Status: CONFIRMED
+
+Class: POWERSHELL_PIPELINE_COLLECTION_PRESERVATION_DEFECT
+
+Observed during:
+`ICRP-RUN-000D-BP1-APPLY-MAIN-BRANCH-PROTECTION-POLICY-v1.0.0.ps1`
+
+Prestate evidence:
+
+- local HEAD:
+  `c972761c979f5f918460f959ca17281daa66e8de`
+- remote main SHA:
+  `c972761c979f5f918460f959ca17281daa66e8de`
+- local repository clean: YES
+- branch protection prestate: ABSENT
+- raw GitHub rulesets response: `[]`
+
+Failure:
+The helper intended to normalize `$null` to `@()`. Because PowerShell function
+output is pipeline-enumerated, the empty array emitted zero objects. Assignment
+therefore yielded `$null`, and `$rulesets.Count` failed under `Set-StrictMode`.
+
+Mutation impact:
+NONE.
+
+The runner failed in precondition section 03. The authorized branch-protection
+mutation in section 04 was never reached.
+
+Actual repository state:
+
+- branch protection: ABSENT
+- repository rulesets: 0
+- local/remote SHA identity: PASS
+- remote mutation: NO
+
+Safe handling:
+Record ICRP-E008, then stage/commit/push that record before generating a
+corrected branch-protection runner.
+
+Rules:
+
+`EMPTY_COLLECTION_OUTPUT = ZERO_PIPELINE_OBJECTS`
+
+`ZERO_PIPELINE_OBJECTS -> NULL_ASSIGNMENT_POSSIBLE`
+
+`MUTATION_NOT_REACHED = REMOTE_STATE_PRESERVED`

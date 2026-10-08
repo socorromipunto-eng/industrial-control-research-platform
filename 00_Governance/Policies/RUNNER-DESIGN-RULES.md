@@ -192,3 +192,42 @@ EMPTY_JSON_ARRAY = ZERO_ITEMS
 NULL_DESERIALIZATION != ONE_REAL_ITEM
 
 PARSER_COUNT != SOURCE_STATE_UNLESS_NORMALIZED
+
+## Empty collection return discipline - ICRP-E008
+
+Windows PowerShell 5.1 function output is pipeline output. Returning `@()` from
+a helper does not reliably preserve a zero-length collection object for the
+caller: the empty collection emits zero pipeline objects, so assignment may
+receive `$null`.
+
+ICRP-E008 was observed after ICRP-E007 attempted to normalize a nullable JSON
+collection through a helper:
+
+- raw JSON payload: `[]`
+- deserialized value: `$null`
+- helper branch: `return @()`
+- assigned helper result: `$null`
+- subsequent `.Count` under `Set-StrictMode`: `PropertyNotFoundStrict`
+
+Required rules:
+
+- Do not use a function that returns `@()` through normal pipeline semantics
+  when the caller requires a concrete zero-length collection object.
+- Prefer caller-side normalization:
+  `[object[]]$items = @()`
+  followed by explicit assignment only when the parsed value is non-null.
+- If a helper must preserve an empty array as one object, use a mechanism that
+  suppresses output enumeration and validate the resulting type/count.
+- Under `Set-StrictMode`, validate nullability before property access.
+- Collection normalization itself must be covered by a direct self-test when
+  it controls a mutation gate.
+
+Durable semantics:
+
+EMPTY_COLLECTION_OUTPUT = ZERO_PIPELINE_OBJECTS
+
+ZERO_PIPELINE_OBJECTS -> NULL_ASSIGNMENT_POSSIBLE
+
+NORMALIZATION_HELPER_PASS != COLLECTION_OBJECT_PRESERVED
+
+MUTATION_NOT_REACHED = REMOTE_STATE_PRESERVED

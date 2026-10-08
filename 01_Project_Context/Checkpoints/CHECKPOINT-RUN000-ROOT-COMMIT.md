@@ -146,3 +146,40 @@ Adjudicated GitHub state before main-protection policy selection:
 Required preservation:
 Do not apply branch protection or rulesets until ICRP-E007 is durably recorded
 and committed.
+
+## Durable runner defect update - ICRP-E008
+
+The durable runner-defect set now includes:
+
+- ICRP-E001
+- ICRP-E002
+- ICRP-E003
+- ICRP-E004
+- ICRP-E005
+- ICRP-E006
+- ICRP-E007
+- ICRP-E008
+
+ICRP-E008:
+A PowerShell 5.1 helper returned an empty array for nullable JSON collection
+normalization, but pipeline output semantics emitted zero objects and the caller
+received `$null`. Under `Set-StrictMode`, `.Count` then failed.
+
+Branch-protection attempt adjudication:
+
+- runner hash validated: YES
+- parser validated: YES
+- local HEAD:
+  `c972761c979f5f918460f959ca17281daa66e8de`
+- remote main:
+  `c972761c979f5f918460f959ca17281daa66e8de`
+- raw rulesets payload: `[]`
+- protection prestate: ABSENT
+- protection mutation section reached: NO
+- branch protection changed: NO
+- ruleset changed: NO
+- push performed: NO
+
+Required preservation:
+Do not retry the same branch-protection runner. Record and commit ICRP-E008,
+then use corrected caller-side nullable collection normalization.
