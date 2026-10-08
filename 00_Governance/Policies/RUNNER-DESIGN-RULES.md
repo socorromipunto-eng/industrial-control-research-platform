@@ -98,3 +98,33 @@ Required behavior:
 
 `PORCELAIN_TOKEN != WILDCARD_PATTERN`
 `PARSER_FAILURE != REPOSITORY_FAILURE`
+
+## Native process argument discipline - ICRP-E005
+
+PowerShell automatic and reserved variables must not be reused as formal
+parameters in governed runner helper functions.
+
+ICRP-E005 was observed when a helper declared `$Args` as a formal parameter.
+Because `$Args` is an automatic PowerShell variable, native Git arguments were
+not propagated as intended and `git.exe` received an invalid/incomplete command
+line.
+
+Required rules:
+
+- Do not use `$Args` as a formal parameter or ordinary local variable in
+  governed runners.
+- Use explicit names such as `$GitArguments`, `$NativeArguments`, or
+  `$ProcessArguments`.
+- Native command wrappers must expose or validate the effective command line
+  during diagnostic/adjudication gates when argument propagation is material.
+- A native-wrapper failure is not evidence of repository failure.
+- If the failed runner was read-only and repository preservation is proven,
+  preserve state and adjudicate before retrying with corrected tooling.
+
+Durable semantics:
+
+NATIVE_WRAPPER_FAILURE != REPOSITORY_FAILURE
+
+AUTOMATIC_VARIABLE_COLLISION = RUNNER_DEFECT
+
+READ_ONLY_FAILURE + PRESERVED_STATE = ADJUDICATE_BEFORE_RETRY

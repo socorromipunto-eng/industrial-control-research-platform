@@ -151,3 +151,52 @@ such as `?`, `*`, `[`, or `]` are semantically significant.
 `POSTCONDITION_DEFECT != MUTATION_FAILURE`
 `INDEX_MUTATED + VALIDATED = PRESERVE_INDEX`
 `PORCELAIN_STATUS -> LITERAL_PARSE`
+
+## ICRP-E005 - PowerShell automatic-variable collision broke native Git argument propagation
+
+Status: CONFIRMED
+
+Class: RUNNER_NATIVE_ARGUMENT_WRAPPER_DEFECT
+
+Observed during:
+`ICRP-RUN-000D-R1-GITHUB-REMOTE-CAPABILITY-PROBE-v1.0.0.ps1`
+
+Observed behavior:
+The runner intended to execute:
+
+`git.exe -C C:\ICRP branch --show-current`
+
+but Git instead emitted general help and returned exit code 1.
+
+Root cause:
+The helper function declared `$Args` as a formal parameter. `$Args` is an
+automatic PowerShell variable. Reusing that name caused the intended native
+argument array to be lost/mis-propagated.
+
+Repository impact:
+NONE.
+
+Evidence:
+The corrected read-only runner
+`ICRP-RUN-000D-R1-R1-GITHUB-REMOTE-CAPABILITY-PROBE-v1.0.0.ps1`
+proved:
+
+- branch `main`;
+- HEAD `cb8840038b67fdef1ee207cce1982a88ad0f7cd5`;
+- clean repository;
+- zero configured remotes;
+- `git.exe -C C:\ICRP branch --show-current` executed correctly;
+- GitHub CLI available and authenticated;
+- no mutation performed.
+
+Safe handling:
+Do not repeat the defective runner. Preserve repository state. Correct the
+wrapper. Re-run only the read-only probe. Record the defect durably before the
+next mutation boundary.
+
+Rules:
+`NATIVE_WRAPPER_FAILURE != REPOSITORY_FAILURE`
+
+`AUTOMATIC_VARIABLE_COLLISION = RUNNER_DEFECT`
+
+`READ_ONLY_FAILURE + PRESERVED_STATE = ADJUDICATE_BEFORE_RETRY`
