@@ -1,0 +1,33 @@
+Industrial Control Research Platform (ICRP)
+Copyright 2026 Antonio Jose Socorro Marin
+
+This product includes original architecture, research methodology, control-system
+design, software, documentation, validation framework, evidence-governance
+structures, and related engineering work authored for the Industrial Control
+Research Platform (ICRP).
+
+Primary author:
+Antonio Jose Socorro Marin
+
+Project licensing:
+Unless a file or directory states otherwise, original ICRP material is made
+available under the Apache License, Version 2.0.
+
+Third-party and normative material:
+Third-party standards, specifications, publications, source code, trademarks,
+and other materials retain their original copyright, licensing, attribution,
+redistribution, and certification conditions. Inclusion of metadata, hashes,
+citations, interoperability notes, or references in ICRP does not relicense
+third-party material under Apache-2.0 and does not imply ownership, endorsement,
+conformance, certification, validation, authorization, or legal equivalence.
+
+Licensed or restricted standards:
+ICRP does not authorize public redistribution of copyrighted or licensed
+standards unless the applicable rights expressly permit redistribution.
+Repository records may instead preserve source metadata, provenance,
+applicability, acquisition evidence, and cryptographic hashes.
+
+Assurance boundary:
+Open-source licensing does not itself establish engineering conformance,
+regulatory conformity, functional-safety certification, cybersecurity
+certification, or fitness for production use.

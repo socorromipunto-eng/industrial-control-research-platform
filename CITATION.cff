@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it."
+title: "Industrial Control Research Platform (ICRP)"
+type: software
+authors:
+  - family-names: "Socorro Marin"
+    given-names: "Antonio Jose"
+year: 2026
+license: Apache-2.0
+repository-code: "https://github.com/socorromipunto-eng/industrial-control-research-platform"
+keywords:
+  - industrial-control
+  - OT
+  - ICS
+  - IEC-61131-3
+  - SCADA
+  - HMI
+  - embedded-systems
+  - functional-safety
+  - cybersecurity
+  - SFAT
+  - fault-injection
+  - evidence-driven-engineering
+abstract: >-
+  Industrial Control Research Platform (ICRP) is an independent research
+  platform for governed industrial automation, deterministic control,
+  embedded systems, HMI/SCADA, industrial protocols, simulation, fault
+  injection, software factory acceptance testing, OT cybersecurity, evidence,
+  and assurance-oriented engineering.
