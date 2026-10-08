@@ -1,0 +1,153 @@
+# ICRP Anti-Regression Error Ledger
+
+Purpose: preserve runner/workflow defects as executable governance knowledge.
+A runner defect is not automatically a project defect.
+
+## ICRP-E001 - Git identity preflight occurred too late
+
+Trigger/context:
+RUN-000 bootstrap created the repository and staged the M0 baseline before the
+first commit attempted to resolve Git author identity.
+
+Observed symptom:
+`git commit` stopped with `Author identity unknown`.
+
+Root cause:
+RUN-000 did not verify repository-local or global `user.name` and `user.email`
+before entering the repository/index mutation sequence.
+
+Classification:
+Runner preflight / mutation-order defect.
+
+Mutation status:
+Repository initialization and staging had already occurred. Commit had not
+occurred. The partial state was preserved and adjudicated instead of rerun.
+
+Safe handling:
+Inspect branch/index/worktree state, establish an explicitly authorized local
+identity, then separately authorize the initial commit.
+
+Prohibited automatic recovery:
+Do not rerun bootstrap, reset, restore, clean, unstage, or delete the partial
+state merely because commit identity is missing.
+
+Corrected design rule:
+Any runner that may reach a Git commit SHALL resolve and validate the intended
+Git identity before the first mutation whose continuation depends on that
+identity.
+
+`MISSING_IDENTITY != PROJECT_FAILURE`
+`PARTIAL_MUTATION + ERROR = PRESERVE_STATE + ADJUDICATE`
+`IDENTITY_PREFLIGHT -> BEFORE_COMMIT_DEPENDENT_MUTATIONS`
+
+## ICRP-E002 - Native Git argument propagation defect in commit runner v1.0.1
+
+Trigger/context:
+The first corrected initial-commit runner attempted read-only branch discovery.
+
+Observed symptom:
+`git.exe` printed top-level usage and the runner stopped with
+`BLOCKED: branch returned exit code 1`.
+
+Root cause:
+The native invocation layer used a fragile PowerShell 5.1 argument-passing
+design, including the automatic-variable name `$Args` as a runner parameter
+surface and `Start-Process -ArgumentList` composition that was not mechanically
+proven before repository queries.
+
+Classification:
+Runner native-command invocation defect. No ICRP repository defect was shown.
+
+Mutation status:
+No commit occurred. The runner stopped before its authorized mutation.
+
+Safe handling:
+Preserve repository state. Correct the native invocation layer and prove the
+wrapper itself with a read-only Git probe before any mutation.
+
+Prohibited automatic recovery:
+Do not reset, restore, clean, restage, or retry a commit without a fresh
+preflight.
+
+Corrected design rule:
+PowerShell 5.1 governed runners SHALL avoid automatic-variable names for formal
+parameters and SHALL mechanically prove native argument propagation before a
+mutation boundary.
+
+`NATIVE_WRAPPER_PASS -> BEFORE_MUTATION`
+`RUNNER_INVOCATION_FAILURE != REPOSITORY_FAILURE`
+
+## ICRP-E003 - Evidence creation must not broaden a commit-only boundary
+
+Trigger/context:
+Commit-runner v1.0.1 contained logic that would create evidence files inside the
+repository before executing the authorized root commit.
+
+Observed defect:
+The design would have introduced a separate worktree mutation during a boundary
+declared as `ONE LOCAL ROOT COMMIT ONLY`.
+
+Classification:
+Latent runner authorization-scope defect discovered before execution reached the
+affected phase.
+
+Mutation status:
+No evidence-file mutation occurred from that runner because execution stopped
+earlier.
+
+Safe handling:
+Remove repository evidence creation from the commit-only boundary. Capture
+durable evidence in a separately authorized mutation after commit adjudication.
+
+Corrected design rule:
+A runner SHALL NOT manufacture additional mutation authority by declaring
+convenient side effects. Evidence creation inside a repository is itself a
+worktree mutation and requires authorization.
+
+`COMMIT_ONLY_AUTHORIZATION != WORKTREE_FILE_CREATION_AUTHORIZATION`
+`RUNNER_SCOPE <= HUMAN_AUTHORIZATION`
+`EVIDENCE_MUTATION = MUTATION`
+## ICRP-E004 - PowerShell wildcard misclassified staged status as untracked
+
+Trigger/context:
+RUN-000A-S1 successfully staged the exact three adjudicated governance files.
+Its post-stage validation then attempted to detect untracked entries using:
+
+`Where-Object { $_ -like '??*' }`
+
+Observed symptom:
+The runner reported `CONTROLLED_STOP: unexpected untracked files remain` even
+though `git status --porcelain=v1 -uall` showed only staged `A  ...` entries.
+
+Root cause:
+In PowerShell wildcard matching, `?` means "any single character". Therefore
+the pattern `??*` matched staged status lines such as `A  path` and did not
+mean the literal Git porcelain prefix `?? `.
+
+Classification:
+Runner postcondition / status-parser defect.
+
+Mutation status:
+The authorized index mutation had already completed successfully. Exactly three
+governance files were staged. The staged state was preserved and independently
+adjudicated read-only before any continuation.
+
+Safe handling:
+Use literal prefix comparison for Git porcelain status, for example:
+
+`$Line.StartsWith('?? ')`
+
+or another parser that treats porcelain status bytes literally.
+
+Prohibited automatic recovery:
+Do not repeat `git add`, reset, restore, clean, or otherwise alter an already
+adjudicated index merely because the postcondition parser is defective.
+
+Corrected design rule:
+Git porcelain status SHALL be parsed as a fixed-format machine interface.
+PowerShell wildcard operators SHALL NOT be used when literal status characters
+such as `?`, `*`, `[`, or `]` are semantically significant.
+
+`POSTCONDITION_DEFECT != MUTATION_FAILURE`
+`INDEX_MUTATED + VALIDATED = PRESERVE_INDEX`
+`PORCELAIN_STATUS -> LITERAL_PARSE`
