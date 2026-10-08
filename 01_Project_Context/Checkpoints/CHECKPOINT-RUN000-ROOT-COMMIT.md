@@ -84,3 +84,33 @@ Adjudicated repository state after correction:
 - GitHub CLI authenticated as `socorromipunto-eng`: YES
 - repository mutation caused by failed probe: NO
 - remote mutation caused by failed probe: NO
+
+## Durable runner defect update - ICRP-E006
+
+The durable runner-defect set now includes:
+
+- ICRP-E001
+- ICRP-E002
+- ICRP-E003
+- ICRP-E004
+- ICRP-E005
+- ICRP-E006
+
+ICRP-E006:
+An empty GitHub repository was misclassified as non-empty because a
+`defaultBranchRef` object with an empty `name` was treated as a live branch ref.
+
+Remote adjudication:
+
+- repository: `socorromipunto-eng/industrial-control-research-platform`
+- visibility: PUBLIC
+- repository size: 0
+- branch count: 0
+- commit-list result: 409 `Git Repository is empty.`
+- repository creation: SUCCESS
+- local origin configured: NO
+- push performed: NO
+
+Required preservation:
+Do not recreate or delete the remote repository. Continue from the existing
+empty public repository after ICRP-E006 is durably recorded and committed.

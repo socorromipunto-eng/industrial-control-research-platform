@@ -200,3 +200,53 @@ Rules:
 `AUTOMATIC_VARIABLE_COLLISION = RUNNER_DEFECT`
 
 `READ_ONLY_FAILURE + PRESERVED_STATE = ADJUDICATE_BEFORE_RETRY`
+
+## ICRP-E006 - Empty GitHub repository misclassified as non-empty
+
+Status: CONFIRMED
+
+Class: REMOTE_POSTCONDITION_ADJUDICATION_DEFECT
+
+Observed during:
+`ICRP-RUN-000D-GH1-CREATE-EMPTY-PUBLIC-GITHUB-REPOSITORY-v1.0.0.ps1`
+
+Authorized remote mutation:
+Create public repository
+`socorromipunto-eng/industrial-control-research-platform`
+without README, license, gitignore, branch creation, origin configuration, or
+push.
+
+Mutation result:
+SUCCESS.
+
+Post-check failure:
+The runner received:
+
+`"defaultBranchRef":{"name":""}`
+
+and treated object presence as proof that a real default branch existed.
+
+Independent adjudication proved the repository is empty:
+
+- repository visibility: public;
+- repository size: 0;
+- branch enumeration: zero branches;
+- commit enumeration: GitHub API 409 `Git Repository is empty.`;
+- no local remote configured;
+- no push performed.
+
+Root cause:
+The runner conflated default-branch metadata/object presence with existence of a
+live Git ref.
+
+Safe handling:
+Preserve the created repository. Do not rerun creation. Record the defect and
+continue only after local governance returns to a clean committed state.
+
+Rules:
+
+`DEFAULT_BRANCH_METADATA != BRANCH_EXISTENCE`
+
+`EMPTY_BRANCH_NAME != LIVE_REF`
+
+`REMOTE_MUTATION_SUCCEEDED + POSTCHECK_DEFECT = PRESERVE_REMOTE_AND_ADJUDICATE`

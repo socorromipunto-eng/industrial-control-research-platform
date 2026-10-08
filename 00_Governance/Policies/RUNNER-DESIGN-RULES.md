@@ -128,3 +128,31 @@ NATIVE_WRAPPER_FAILURE != REPOSITORY_FAILURE
 AUTOMATIC_VARIABLE_COLLISION = RUNNER_DEFECT
 
 READ_ONLY_FAILURE + PRESERVED_STATE = ADJUDICATE_BEFORE_RETRY
+
+## Empty GitHub repository adjudication - ICRP-E006
+
+A GitHub API or CLI response that contains a `defaultBranchRef` object does not
+by itself prove that a branch ref exists.
+
+ICRP-E006 was observed when an empty repository returned a branch metadata
+object whose `name` field was an empty string. The runner treated object
+presence as proof that the repository was non-empty.
+
+Required rules:
+
+- Distinguish default-branch metadata from an actual branch ref.
+- Empty or null branch names do not establish branch existence.
+- Repository emptiness should be adjudicated with independent evidence such as:
+  repository size, explicit branch enumeration, and commit-list behavior.
+- A postcondition parser failure after successful remote creation must preserve
+  the remote resource and be adjudicated before any retry or deletion.
+- Never repeat a repository-creation runner when creation succeeded but a later
+  validation step failed.
+
+Durable semantics:
+
+DEFAULT_BRANCH_METADATA != BRANCH_EXISTENCE
+
+EMPTY_BRANCH_NAME != LIVE_REF
+
+REMOTE_MUTATION_SUCCEEDED + POSTCHECK_DEFECT = PRESERVE_REMOTE_AND_ADJUDICATE
