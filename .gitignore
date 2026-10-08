@@ -1,0 +1,25 @@
+# Build artifacts
+build/
+out/
+bin/
+obj/
+*.tmp
+*.log
+
+# IDE
+.vscode/
+.idea/
+.vs/
+
+# Local secrets / credentials
+.env
+*.key
+*.pem
+secrets/
+credentials/
+
+# Licensed standards: metadata may be tracked; licensed content is not.
+02_Normative_Baseline/Licensed_Sources/*
+
+# Lab-generated large/raw artifacts
+29_Lab/Photos/raw/

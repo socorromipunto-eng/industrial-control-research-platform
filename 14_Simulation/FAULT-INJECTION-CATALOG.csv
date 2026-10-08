@@ -1,0 +1,16 @@
+fault_id,domain,scenario,expected_detection,expected_control_response,expected_hmi_response,expected_evidence,status
+FI-001,TEMPERATURE,Sensor stuck high,TBD,TBD,TBD,TBD,DRAFT
+FI-002,TEMPERATURE,Sensor stuck low,TBD,TBD,TBD,TBD,DRAFT
+FI-003,SIGNAL,Out of range,TBD,TBD,TBD,TBD,DRAFT
+FI-004,NETWORK,Fieldbus loss,TBD,TBD,TBD,TBD,DRAFT
+FI-005,NETWORK,Packet delay,TBD,TBD,TBD,TBD,DRAFT
+FI-006,ACTUATOR,Valve stuck closed,TBD,TBD,TBD,TBD,DRAFT
+FI-007,ACTUATOR,Valve stuck open,TBD,TBD,TBD,TBD,DRAFT
+FI-008,MOTOR,Motor overload,TBD,TBD,TBD,TBD,DRAFT
+FI-009,POWER,Controller brownout,TBD,TBD,TBD,TBD,DRAFT
+FI-010,CONTROL,Watchdog reset,TBD,TBD,TBD,TBD,DRAFT
+FI-011,SEQUENCE,Invalid state transition,TBD,TBD,TBD,TBD,DRAFT
+FI-012,INTERLOCK,Simultaneous interlocks,TBD,TBD,TBD,TBD,DRAFT
+FI-013,SCADA,Loss of SCADA,TBD,TBD,TBD,TBD,DRAFT
+FI-014,DATA,Duplicate command,TBD,TBD,TBD,TBD,DRAFT
+FI-015,DATA,Stale process value,TBD,TBD,TBD,TBD,DRAFT

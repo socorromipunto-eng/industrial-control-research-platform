@@ -1,0 +1,13 @@
+﻿{
+    "run_id":  "RUN-014",
+    "gate_id":  "GATE-014",
+    "script_version":  "1.0.0",
+    "timestamp_utc":  "20261008T124000Z",
+    "root":  "C:\\ICRP",
+    "repository_name":  "industrial-control-research-platform",
+    "powershell":  "5.1.26100.9549",
+    "os":  "Microsoft Windows NT 10.0.26300.0",
+    "user":  "Owner",
+    "machine":  "DESKTOP-2AJ98AE",
+    "created_file_count":  122
+}

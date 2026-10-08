@@ -1,0 +1,8 @@
+# Replace @OWNER with the actual GitHub owner/team after repository creation.
+/00_Governance/ @OWNER
+/02_Normative_Baseline/ @OWNER
+/07_Hazard_and_Risk/ @OWNER
+/16_Cybersecurity/ @OWNER
+/19_ADR/ @OWNER
+/20_Change_Control/ @OWNER
+/23_Releases/ @OWNER

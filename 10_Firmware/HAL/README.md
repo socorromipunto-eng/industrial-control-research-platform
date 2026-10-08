@@ -1,0 +1,3 @@
+# HAL
+
+Hardware abstraction interfaces.

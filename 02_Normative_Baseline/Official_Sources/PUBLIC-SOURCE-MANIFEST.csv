@@ -1,0 +1,10 @@
+source_id,url,expected_type
+EU-MACH-2023-1230,https://eur-lex.europa.eu/eli/reg/2023/1230/en,HTML
+EU-MD-2006-42-EC,https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32006L0042,HTML
+EU-EMC-2014-30,https://eur-lex.europa.eu/eli/dir/2014/30/oj,HTML
+EU-ATEX-2014-34,https://eur-lex.europa.eu/eli/dir/2014/34/oj,HTML
+EU-PED-2014-68,https://eur-lex.europa.eu/eli/dir/2014/68/oj,HTML
+NIST-SP800-82R3,https://csrc.nist.gov/pubs/sp/800/82/r3/final,HTML
+NIST-SP800-82R4-IPD,https://csrc.nist.gov/pubs/sp/800/82/r4/ipd,HTML
+OSHA-1910-SUBPART-O,https://www.osha.gov/machine-guarding/standards,HTML
+OSHA-1910-147,https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.147,HTML
