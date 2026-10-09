@@ -345,3 +345,70 @@ Rules:
 `ZERO_PIPELINE_OBJECTS -> NULL_ASSIGNMENT_POSSIBLE`
 
 `MUTATION_NOT_REACHED = REMOTE_STATE_PRESERVED`
+
+## ICRP-E009 - RUN-000 evidence identity mismatch
+
+Status: CONFIRMED
+
+Class: EVIDENCE_INTEGRITY_IDENTITY_DEFECT
+
+Observed during:
+ICRP-RUN-GOV-GATE000-EVIDENCE-ADJUDICATION-v1.0.0.ps1
+
+Affected artifact:
+18_Evidence/Runs/RUN-000/20261008T124000Z/environment.json
+
+Confirmed facts:
+
+- The artifact is stored under RUN-000 evidence.
+- The embedded run_id is RUN-014.
+- The embedded gate_id is GATE-014.
+- The artifact SHA-256 observed during adjudication was:
+  0E2C722FDA398AC2B0CD419C43B25400D443C4DC8517ABA3E54FE3D3761519B3.
+- The RUN-000 root commit was independently validated as:
+  07c4485442af45f2d213a92adaa1dbcc59f6f055.
+- The root commit parent count was 0.
+- The root commit path count was 124.
+- The RUN-000 checkpoint assertions passed.
+- The RUN-000 created-file inventory contained the GATE-000 entry.
+
+Root-cause boundary:
+
+The identity mismatch is confirmed.
+The exact mechanism that wrote RUN-014 / GATE-014 into the RUN-000
+environment artifact remains UNKNOWN and shall not be guessed.
+
+Impact:
+
+- Repository history corruption: NONE demonstrated.
+- Source implementation impact: NONE demonstrated.
+- Evidence traceability impact: YES.
+- GATE-000 promotion: HOLD pending corrective evidence adjudication.
+- GATE-001 progression: BLOCKED until GATE-000 evidence integrity is resolved.
+
+Preservation requirement:
+
+The original environment.json shall not be deleted, overwritten, silently
+corrected, or hidden by history rewriting.
+
+Required remediation:
+
+1. Preserve the original artifact and SHA-256.
+2. Create a separately authorized corrective evidence artifact.
+3. Bind that corrective artifact explicitly to RUN-000 / GATE-000.
+4. Reference the original defective artifact and original SHA-256.
+5. Update traceability registers in separately authorized boundaries.
+6. Re-run GATE-000 evidence adjudication.
+7. Perform human adjudication before promotion.
+
+Durable semantics:
+
+EVIDENCE_PATH_IDENTITY != EMBEDDED_IDENTITY
+
+EVIDENCE_INTEGRITY_DEFECT = PRESERVE + ADJUDICATE + CORRECTIVE_RECORD
+
+CORRECTIVE_EVIDENCE != ORIGINAL_EVIDENCE
+
+UNKNOWN_ROOT_CAUSE_DETAIL != GUESSED_CAUSE
+
+GATE000_HOLD -> UNTIL_EVIDENCE_IDENTITY_REMEDIATED
