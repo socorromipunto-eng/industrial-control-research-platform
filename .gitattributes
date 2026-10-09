@@ -1,0 +1,83 @@
+# ICRP repository text normalization policy
+#
+# Purpose:
+# - keep repository text content deterministic across Windows/Linux/macOS
+# - store governed text artifacts with LF in Git
+# - prevent local core.autocrlf settings from silently changing repository form
+#
+# Important:
+# This file does NOT authorize bulk renormalization by itself.
+# Any existing-file renormalization must occur in a separate governed boundary.
+
+# Current repository text formats
+*.md        text eol=lf
+*.csv       text eol=lf
+*.json      text eol=lf
+*.cff       text eol=lf
+*.ps1       text eol=lf
+.gitignore  text eol=lf
+LICENSE     text eol=lf
+NOTICE      text eol=lf
+CODEOWNERS  text eol=lf
+
+# Expected ICRP engineering text formats
+*.txt       text eol=lf
+*.yaml      text eol=lf
+*.yml       text eol=lf
+*.xml       text eol=lf
+*.ini       text eol=lf
+*.cfg       text eol=lf
+*.conf      text eol=lf
+
+# Firmware / native source
+*.c         text eol=lf
+*.h         text eol=lf
+*.cc        text eol=lf
+*.cpp       text eol=lf
+*.cxx       text eol=lf
+*.hpp       text eol=lf
+*.hxx       text eol=lf
+*.s         text eol=lf
+*.S         text eol=lf
+*.ld        text eol=lf
+
+# Build and automation
+*.cmake     text eol=lf
+CMakeLists.txt text eol=lf
+*.sh        text eol=lf
+*.py        text eol=lf
+
+# IEC 61131-3 / industrial engineering text exports where applicable
+*.st        text eol=lf
+*.scl       text eol=lf
+
+# Common binary artifacts - never apply text normalization
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.webp      binary
+*.ico       binary
+*.pdf       binary
+*.zip       binary
+*.7z        binary
+*.gz        binary
+*.tar       binary
+*.exe       binary
+*.dll       binary
+*.so        binary
+*.dylib     binary
+*.bin       binary
+*.hex       binary
+*.elf       binary
+*.o         binary
+*.obj       binary
+*.lib       binary
+*.a         binary
+*.pdb       binary
+*.doc       binary
+*.docx      binary
+*.xls       binary
+*.xlsx      binary
+*.ppt       binary
+*.pptx      binary
