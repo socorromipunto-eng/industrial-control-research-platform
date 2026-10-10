@@ -1,0 +1,52 @@
+{
+    "schema":  "ICRP_CORRECTIVE_EVIDENCE_V1",
+    "action_id":  "ICRP-ACT-E009-CORRECTIVE-EVIDENCE-001",
+    "request_id":  "ICRP-CR-E009-001",
+    "actor_id":  "HUMAN_AUTHORIZED_RUNNER",
+    "component_id":  "ICRP-RUN-000-EVIDENCE",
+    "build_id":  "4caca760b49bdd804ec75bd99c3d562bed22bd13",
+    "policy_id":  "00_Governance/Policies/EVIDENCE-POLICY.md",
+    "policy_hash_sha256":  "D3EF870D1202BDBE864AFECD135609F483E9BAEBF98F9AA01E726C3FC1B33C70",
+    "normative_source_id":  "NOT_APPLICABLE_EVIDENCE_INTEGRITY_CORRECTION",
+    "pre_state_hash_sha256":  "0E2C722FDA398AC2B0CD419C43B25400D443C4DC8517ABA3E54FE3D3761519B3",
+    "decision":  "PRESERVE_ORIGINAL_AND_CREATE_SEPARATE_CORRECTIVE_EVIDENCE",
+    "authorization":  "HUMAN_ICRP_E009_CREATE_CORRECTIVE_EVIDENCE_AUTHORIZATION",
+    "execution_result":  "CORRECTIVE_EVIDENCE_RECORD_CREATED",
+    "validation_result":  "PENDING_POST_CREATION_VALIDATION",
+    "timestamp_utc":  "2026-10-09T17:04:49Z",
+    "signature_or_attestation":  "UNSIGNED_LOCAL_RESEARCH_EVIDENCE",
+    "defect_id":  "ICRP-E009",
+    "gate_id":  "GATE-000",
+    "run_id":  "RUN-000",
+    "evidence_class":  "E2_CONFIGURATION_STATE_CAPTURE",
+    "claim_boundary":  "CORRECTIVE_RECORD_ONLY_NOT_ORIGINAL_RUN_ENVIRONMENT",
+    "original_artifact":  {
+                              "path":  "18_Evidence/Runs/RUN-000/20261008T124000Z/environment.json",
+                              "sha256":  "0E2C722FDA398AC2B0CD419C43B25400D443C4DC8517ABA3E54FE3D3761519B3",
+                              "embedded_run_id":  "RUN-014",
+                              "embedded_gate_id":  "GATE-014",
+                              "embedded_timestamp_utc":  "20261008T124000Z",
+                              "embedded_created_file_count":  "122",
+                              "disposition":  "PRESERVED_UNMODIFIED"
+                          },
+    "correction":  {
+                       "authoritative_run_id_for_this_corrective_record":  "RUN-000",
+                       "authoritative_gate_id_for_this_corrective_record":  "GATE-000",
+                       "original_artifact_rewritten":  false,
+                       "original_git_history_rewritten":  false,
+                       "purpose":  "Bind the confirmed E009 identity defect to RUN-000 / GATE-000 without replacing historical evidence."
+                   },
+    "traceability":  {
+                         "error_ledger_path":  "00_Governance/Registers/ERROR-LEDGER.md",
+                         "error_ledger_sha256":  "2718259A1CCE1A53E9090786EA1A514478BCF44E874D866032254338AEF6B569",
+                         "root_commit":  "07c4485442af45f2d213a92adaa1dbcc59f6f055",
+                         "e009_commit":  "4caca760b49bdd804ec75bd99c3d562bed22bd13",
+                         "next_boundary":  "REVIEW_CORRECTIVE_EVIDENCE"
+                     },
+    "semantics":  [
+                      "CORRECTIVE_EVIDENCE != ORIGINAL_EVIDENCE",
+                      "PRESERVATION != SILENT_REPAIR",
+                      "RUNNER_PASS != GATE_PASS",
+                      "GATE000_REMAINS_HOLD_UNTIL_REVIEW_AND_HUMAN_ADJUDICATION"
+                  ]
+}
